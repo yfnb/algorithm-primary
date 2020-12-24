@@ -1,30 +1,33 @@
-package class02;
+package class03;
 
 import java.util.Arrays;
 
-public class Code06_BSNearRight {
+public class Code02_BSNearLeft {
 
-	// 在arr上，找满足<=value的最右位置
-	public static int nearestIndex(int[] arr, int value) {
+	// arr有序的，>=num 最左
+	public static int mostLeftNoLessNumIndex(int[] arr, int num) {
+		if (arr == null || arr.length == 0) {
+			return -1;
+		}
 		int L = 0;
 		int R = arr.length - 1;
-		int index = -1; // 记录最右的对号
+		int ans = -1;
 		while (L <= R) {
-			int mid = L + ((R - L) >> 1);
-			if (arr[mid] <= value) {
-				index = mid;
-				L = mid + 1;
-			} else {
+			int mid = (L + R) / 2;
+			if (arr[mid] >= num) {
+				ans = mid;
 				R = mid - 1;
+			} else {
+				L = mid + 1;
 			}
 		}
-		return index;
+		return ans;
 	}
 
 	// for test
 	public static int test(int[] arr, int value) {
-		for (int i = arr.length - 1; i >= 0; i--) {
-			if (arr[i] <= value) {
+		for (int i = 0; i < arr.length; i++) {
+			if (arr[i] >= value) {
 				return i;
 			}
 		}
@@ -60,11 +63,11 @@ public class Code06_BSNearRight {
 			int[] arr = generateRandomArray(maxSize, maxValue);
 			Arrays.sort(arr);
 			int value = (int) ((maxValue + 1) * Math.random()) - (int) (maxValue * Math.random());
-			if (test(arr, value) != nearestIndex(arr, value)) {
+			if (test(arr, value) != mostLeftNoLessNumIndex(arr, value)) {
 				printArray(arr);
 				System.out.println(value);
 				System.out.println(test(arr, value));
-				System.out.println(nearestIndex(arr, value));
+				System.out.println(mostLeftNoLessNumIndex(arr, value));
 				succeed = false;
 				break;
 			}
